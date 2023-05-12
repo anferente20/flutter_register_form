@@ -4,7 +4,7 @@
             "outputFile": "com.example.register_form.app-mergeDebugResources-9:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/home/andresfrenteria/Documentos/Clases/register_form/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/home/andresfrenteria/Documentos/Clases/flutter_register_form/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
