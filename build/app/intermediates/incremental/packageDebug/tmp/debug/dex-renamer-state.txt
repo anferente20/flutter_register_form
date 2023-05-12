@@ -1,0 +1,4 @@
+#Fri May 12 12:12:19 COT 2023
+base.0=/home/andresfrenteria/Documentos/Clases/register_form/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
