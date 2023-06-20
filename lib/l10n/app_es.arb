@@ -1,0 +1,10 @@
+{
+    "registerUser":"Registra tu usuario",
+    "name": "Nombre",
+    "lastName": "Apellido",
+    "date": "Fecha",
+    "register":"Registrar",
+    "noDate": "No ha seleccionado una fecha",
+    "add": "Agregar",
+    "users": "Usuarios"
+}

@@ -1,0 +1,10 @@
+{
+    "registerUser":"Register your user",
+    "name": "Name",
+    "lastName": "Last Name",
+    "date": "Date",
+    "register":"Register",
+    "noDate": "Date is not selected",
+    "add": "Add",
+    "users": "Users"
+}

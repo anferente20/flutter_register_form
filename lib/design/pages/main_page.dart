@@ -12,14 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _counter = 0;
   int indexScreen = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   void _changeScreen(int index) {
     setState(() {
@@ -34,11 +27,6 @@ class _MainPageState extends State<MainPage> {
         changeScreen: _changeScreen,
       ),
       body: getScreen(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
