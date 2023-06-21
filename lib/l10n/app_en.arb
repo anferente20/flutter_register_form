@@ -8,5 +8,6 @@
     "add": "Add",
     "users": "Users",
     "more": "More",
-    "registeredUsers": "Registered users"
+    "registeredUsers": "Registered users",
+    "noUsers": "There are no registered users"
 }

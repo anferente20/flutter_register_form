@@ -8,5 +8,6 @@
     "add": "Agregar",
     "users": "Usuarios",
     "more": "Ver más",
-    "registeredUsers": "Usuarios registrados"
+    "registeredUsers": "Usuarios registrados",
+    "noUsers": "No hay usuarios registrados"
 }

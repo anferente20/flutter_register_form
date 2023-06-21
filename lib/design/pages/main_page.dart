@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:register_form/core/bloc/user_bloc.dart';
-import 'package:register_form/core/models/user.dart';
 import 'package:register_form/design/screens/add_user_screen.dart';
-import 'package:register_form/design/screens/user_information_screen.dart';
+import 'package:register_form/design/screens/list_users_screen.dart';
 import 'package:register_form/design/utils/bottom_bar.dart';
 
 class MainPage extends StatefulWidget {
