@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:register_form/core/bloc/user_bloc.dart';
+import 'package:register_form/core/models/user.dart';
 
 class AddUserScreen extends StatefulWidget {
   static const route = 'AddUserScreen';
@@ -14,7 +17,6 @@ class _AddUserScreenState extends State<AddUserScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,7 +83,21 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () {
+                    print(nameController.text);
+                    print(lastController.text);
+                    print(dateController.text);
+
+                    User user = User(
+                        addresses: {},
+                        name: nameController.text,
+                        lastName: lastController.text,
+                        birthDate: DateTime.parse(dateController.text));
+
+                    context.read<UserBloc>().add(AddUser(user: user));
+
+                    CleanForm();
+                  },
                   color: Colors.redAccent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),
@@ -145,15 +161,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       });
 
                   if (pickedDate != null) {
-                    print(pickedDate);
                     String formattedDate =
                         DateFormat('yyyy-MM-dd').format(pickedDate);
-                    print(formattedDate);
                     setState(() {
                       textController.text = formattedDate;
                     });
-                  } else {
-                    print("Date is not selected");
                   }
                 }
               : () {},
@@ -173,5 +185,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
         )
       ],
     );
+  }
+
+  void CleanForm() {
+    nameController.text = "";
+    lastController.text = "";
+    dateController.text = "";
   }
 }
