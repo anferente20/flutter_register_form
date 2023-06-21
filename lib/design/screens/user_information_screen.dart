@@ -73,7 +73,7 @@ class _UserInformationState extends State<UserInformation> {
                                 label: AppLocalizations.of(context)!.date,
                                 formatters: [],
                                 textController: TextEditingController(
-                                    text: DateFormat.yMd()
+                                    text: DateFormat("dd/MM/yyyy")
                                         .format(widget.user.birthDate)),
                                 readOnly: true),
                             const SizedBox(height: 20),

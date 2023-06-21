@@ -29,7 +29,7 @@ class TextValidator {
   bool isDateValid(String? value) {
     if (value == null) return false;
     if (value.length < 5) return false;
-    const String pattern = r'^[0-9-]+$';
+    const String pattern = r'^[0-9/]+$';
 
     final RegExp regex = RegExp(pattern);
 

@@ -88,7 +88,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       CustomTextInput(
                           label: AppLocalizations.of(context)!.date,
                           formatters: [
-                            FilteringTextInputFormatter.allow(RegExp("[0-9-]")),
+                            FilteringTextInputFormatter.allow(RegExp("[0-9/]")),
                             LengthLimitingTextInputFormatter(10),
                           ],
                           type: TextInputType.datetime,
@@ -178,7 +178,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           addresses: adresses,
                           name: nameController.text,
                           lastName: lastController.text,
-                          birthDate: DateTime.parse(dateController.text));
+                          birthDate: DateFormat("dd/MM/yyyy")
+                              .parse(dateController.text));
 
                       context.read<UserBloc>().add(AddUser(user: user));
 

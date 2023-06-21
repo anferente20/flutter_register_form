@@ -70,7 +70,8 @@ class _CustomTextInputtState extends State<CustomTextInput> {
                       });
 
                   if (pickedDate != null) {
-                    String formattedDate = DateFormat.yMd().format(pickedDate);
+                    String formattedDate =
+                        DateFormat("dd/MM/yyyy").format(pickedDate);
                     setState(() {
                       widget.textController.text = formattedDate;
                     });
@@ -113,7 +114,7 @@ class _CustomTextInputtState extends State<CustomTextInput> {
 
   String getHintText(TextInputType type) {
     if (type == TextInputType.datetime) {
-      return 'dd-mm-yyyy';
+      return 'dd/mm/yyyy';
     }
     if (type == TextInputType.streetAddress) {
       return 'Ej: Cll 67 # 14 -20';
