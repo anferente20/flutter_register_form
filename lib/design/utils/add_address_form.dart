@@ -71,11 +71,16 @@ class _AddAddressFormState extends State<AddAddressForm> {
               minWidth: 100,
               height: 60,
               onPressed: () {
-                if (!TextValidator().isTextValid(cityController.text) ||
-                    !TextValidator().isAddressValid(addressController.text)) {
+                if (!TextValidator().isTextValid(cityController.text)) {
                   setState(() {
                     showErrorMessage = true;
                     errorMessage = AppLocalizations.of(context)!.checkForm;
+                  });
+                }
+                if (!TextValidator().isAddressValid(addressController.text)) {
+                  setState(() {
+                    showErrorMessage = true;
+                    errorMessage = AppLocalizations.of(context)!.checkAddress;
                   });
                 } else {
                   Address newAddress = Address(
