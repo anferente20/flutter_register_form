@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:register_form/core/models/user.dart';
 import 'package:register_form/design/utils/custom_text_input.dart';
 import 'package:register_form/design/utils/custom_text_view.dart';
@@ -56,19 +58,23 @@ class _UserInformationState extends State<UserInformation> {
                           children: [
                             CustomTextInput(
                               label: AppLocalizations.of(context)!.name,
+                              formatters: [],
                               textController:
                                   TextEditingController(text: widget.user.name),
                               readOnly: true,
                             ),
                             CustomTextInput(
                                 label: AppLocalizations.of(context)!.lastName,
+                                formatters: [],
                                 textController: TextEditingController(
                                     text: widget.user.lastName),
                                 readOnly: true),
                             CustomTextInput(
                                 label: AppLocalizations.of(context)!.date,
+                                formatters: [],
                                 textController: TextEditingController(
-                                    text: widget.user.birthDate.toString()),
+                                    text: DateFormat.yMd()
+                                        .format(widget.user.birthDate)),
                                 readOnly: true),
                             const SizedBox(height: 20),
                             Text(

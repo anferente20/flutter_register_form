@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -8,6 +9,7 @@ class CustomTextInput extends StatefulWidget {
   final bool isDate;
   final TextEditingController textController;
   final bool readOnly;
+  final List<TextInputFormatter> formatters;
 
   const CustomTextInput(
       {super.key,
@@ -15,7 +17,8 @@ class CustomTextInput extends StatefulWidget {
       required this.textController,
       this.type = TextInputType.text,
       this.isDate = false,
-      this.readOnly = false});
+      this.readOnly = false,
+      required this.formatters});
 
   @override
   State<CustomTextInput> createState() => _CustomTextInputtState();
@@ -38,15 +41,16 @@ class _CustomTextInputtState extends State<CustomTextInput> {
                     color: Colors.black87),
               ),
             ])),
-        TextField(
+        TextFormField(
           controller: widget.textController,
+          inputFormatters: widget.formatters,
           onTap: widget.isDate
               ? () async {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(1940),
-                      lastDate: DateTime(2101),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
@@ -56,7 +60,8 @@ class _CustomTextInputtState extends State<CustomTextInput> {
                             ),
                             textButtonTheme: TextButtonThemeData(
                               style: TextButton.styleFrom(
-                                primary: Colors.redAccent, // button text color
+                                foregroundColor:
+                                    Colors.redAccent, // button text color
                               ),
                             ),
                           ),
@@ -65,8 +70,7 @@ class _CustomTextInputtState extends State<CustomTextInput> {
                       });
 
                   if (pickedDate != null) {
-                    String formattedDate =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    String formattedDate = DateFormat.yMd().format(pickedDate);
                     setState(() {
                       widget.textController.text = formattedDate;
                     });
@@ -81,6 +85,7 @@ class _CustomTextInputtState extends State<CustomTextInput> {
                   ),
                 )
               : InputDecoration(
+                  hintText: getHintText(widget.type),
                   labelText: widget.label,
                   floatingLabelStyle: const TextStyle(color: Colors.redAccent),
                   contentPadding:
@@ -104,5 +109,19 @@ class _CustomTextInputtState extends State<CustomTextInput> {
         )
       ],
     );
+  }
+
+  String getHintText(TextInputType type) {
+    if (type == TextInputType.datetime) {
+      return 'dd-mm-yyyy';
+    }
+    if (type == TextInputType.streetAddress) {
+      return 'Ej: Cll 67 # 14 -20';
+    }
+    if (type == TextInputType.name) {
+      return 'Ej: Pablo';
+    } else {
+      return 'Ej: Cali';
+    }
   }
 }

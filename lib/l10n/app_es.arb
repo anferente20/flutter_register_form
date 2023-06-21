@@ -14,5 +14,6 @@
     "address": "Dirección",
     "addresses": "Direcciones",
     "addAddress": "Agregar Dirección",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "checkForm": "* Revisa el formulario"
 }

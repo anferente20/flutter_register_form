@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:register_form/core/bloc/user_bloc.dart';
 import 'package:register_form/core/models/address.dart';
 import 'package:register_form/core/models/user.dart';
+import 'package:register_form/core/validators/text_validator.dart';
 import 'package:register_form/design/utils/add_address_form.dart';
 import 'package:register_form/design/utils/custom_text_input.dart';
 import 'package:register_form/design/utils/custom_text_view.dart';
@@ -23,6 +25,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
   TextEditingController dateController = TextEditingController();
   List<Address> adresses = [];
   bool showAddressForm = false;
+  bool showErrorMessage = false;
+  String errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Visibility(
+                        visible: showErrorMessage,
+                        child: Text(
+                          errorMessage,
+                          style: const TextStyle(
+                              color: Colors.redAccent, fontSize: 15),
+                        )),
+                    const SizedBox(height: 5),
                   ],
                 ),
                 Padding(
@@ -59,14 +71,26 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     children: [
                       CustomTextInput(
                           label: AppLocalizations.of(context)!.name,
-                          type: TextInputType.text,
+                          formatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))
+                          ],
+                          type: TextInputType.name,
                           textController: nameController),
                       CustomTextInput(
                           label: AppLocalizations.of(context)!.lastName,
+                          formatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))
+                          ],
                           type: TextInputType.name,
                           textController: lastController),
                       CustomTextInput(
                           label: AppLocalizations.of(context)!.date,
+                          formatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[0-9-]")),
+                            LengthLimitingTextInputFormatter(10),
+                          ],
                           type: TextInputType.datetime,
                           textController: dateController,
                           isDate: true),
@@ -142,15 +166,24 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    User user = User(
-                        addresses: adresses,
-                        name: nameController.text,
-                        lastName: lastController.text,
-                        birthDate: DateTime.parse(dateController.text));
+                    if (!TextValidator().isTextValid(nameController.text) ||
+                        !TextValidator().isTextValid(lastController.text) ||
+                        !TextValidator().isDateValid(dateController.text)) {
+                      setState(() {
+                        showErrorMessage = true;
+                        errorMessage = AppLocalizations.of(context)!.checkForm;
+                      });
+                    } else {
+                      User user = User(
+                          addresses: adresses,
+                          name: nameController.text,
+                          lastName: lastController.text,
+                          birthDate: DateTime.parse(dateController.text));
 
-                    context.read<UserBloc>().add(AddUser(user: user));
+                      context.read<UserBloc>().add(AddUser(user: user));
 
-                    CleanForm();
+                      cleanForm();
+                    }
                   },
                   color: Colors.redAccent,
                   shape: RoundedRectangleBorder(
@@ -172,10 +205,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
     );
   }
 
-  void CleanForm() {
-    nameController.text = "";
-    lastController.text = "";
-    dateController.text = "";
-    adresses = [];
+  void cleanForm() {
+    setState(() {
+      nameController.text = "";
+      lastController.text = "";
+      dateController.text = "";
+      adresses = [];
+      showErrorMessage = false;
+      errorMessage = "";
+    });
   }
 }

@@ -14,5 +14,6 @@
     "address": "Address",
     "addresses": "Addresses",
     "addAddress": "Add address",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "checkForm": "* Check the form"
 }
