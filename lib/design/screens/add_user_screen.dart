@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:register_form/core/bloc/user_bloc.dart';
+import 'package:register_form/core/models/address.dart';
 import 'package:register_form/core/models/user.dart';
+import 'package:register_form/design/utils/add_address_form.dart';
+import 'package:register_form/design/utils/custom_text_input.dart';
+import 'package:register_form/design/utils/custom_text_view.dart';
 
 class AddUserScreen extends StatefulWidget {
   static const route = 'AddUserScreen';
@@ -17,6 +21,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  List<Address> adresses = [];
+  bool showAddressForm = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,20 +57,71 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: [
-                      makeInput(
+                      CustomTextInput(
                           label: AppLocalizations.of(context)!.name,
                           type: TextInputType.text,
                           textController: nameController),
-                      makeInput(
+                      CustomTextInput(
                           label: AppLocalizations.of(context)!.lastName,
                           type: TextInputType.name,
                           textController: lastController),
-                      makeInput(
+                      CustomTextInput(
                           label: AppLocalizations.of(context)!.date,
                           type: TextInputType.datetime,
                           textController: dateController,
                           isDate: true),
-                      const SizedBox(height: 20)
+                      const SizedBox(height: 20),
+                      Text(
+                        AppLocalizations.of(context)!.addresses,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87),
+                      ),
+                      const SizedBox(height: 10),
+                      for (final address in adresses) ...{
+                        CustomTextView(
+                          text: "${address.address}, ${address.city}",
+                          action: () {},
+                          showAction: false,
+                        )
+                      },
+                      Visibility(
+                          visible: showAddressForm,
+                          child: AddAddressForm(
+                            addAddress: (address) {
+                              setState(() {
+                                adresses.add(address);
+                                showAddressForm = false;
+                              });
+                            },
+                          )),
+                      const SizedBox(height: 5),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 4),
+                        child: GestureDetector(
+                          child: Row(children: [
+                            Icon(
+                                showAddressForm
+                                    ? Icons.cancel_outlined
+                                    : Icons.add_circle_outline_outlined,
+                                size: 30,
+                                weight: 10),
+                            Text(showAddressForm
+                                ? AppLocalizations.of(context)!.cancel
+                                : AppLocalizations.of(context)!.addAddress)
+                          ]),
+                          onTap: () {
+                            setState(() {
+                              showAddressForm = !showAddressForm;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
                 )
@@ -84,12 +142,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    print(nameController.text);
-                    print(lastController.text);
-                    print(dateController.text);
-
                     User user = User(
-                        addresses: {},
+                        addresses: adresses,
                         name: nameController.text,
                         lastName: lastController.text,
                         birthDate: DateTime.parse(dateController.text));
@@ -118,78 +172,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
     );
   }
 
-  Widget makeInput(
-      {required String label,
-      type = TextInputType.text,
-      isDate = false,
-      required TextEditingController textController}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        TextField(
-          controller: textController,
-          onTap: isDate
-              ? () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1940),
-                      lastDate: DateTime(2101),
-                      builder: (context, child) {
-                        return Theme(
-                          data: Theme.of(context).copyWith(
-                            colorScheme: const ColorScheme.light(
-                              primary: Colors.redAccent, // <-- SEE HERE
-                              onSurface: Colors.redAccent, // <-- SEE HERE
-                            ),
-                            textButtonTheme: TextButtonThemeData(
-                              style: TextButton.styleFrom(
-                                primary: Colors.redAccent, // button text color
-                              ),
-                            ),
-                          ),
-                          child: child!,
-                        );
-                      });
-
-                  if (pickedDate != null) {
-                    String formattedDate =
-                        DateFormat('yyyy-MM-dd').format(pickedDate);
-                    setState(() {
-                      textController.text = formattedDate;
-                    });
-                  }
-                }
-              : () {},
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.grey,
-              ),
-            ),
-            border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        )
-      ],
-    );
-  }
-
   void CleanForm() {
     nameController.text = "";
     lastController.text = "";
     dateController.text = "";
+    adresses = [];
   }
 }

@@ -2,12 +2,17 @@
     "registerUser":"Registra tu usuario",
     "name": "Nombre",
     "lastName": "Apellido",
-    "date": "Fecha",
+    "date": "Fecha de nacimiento",
     "register":"Registrar",
     "noDate": "No ha seleccionado una fecha",
     "add": "Agregar",
     "users": "Usuarios",
     "more": "Ver más",
     "registeredUsers": "Usuarios registrados",
-    "noUsers": "No hay usuarios registrados"
+    "noUsers": "No hay usuarios registrados",
+    "city": "Ciudad",
+    "address": "Dirección",
+    "addresses": "Direcciones",
+    "addAddress": "Agregar Dirección",
+    "cancel": "Cancelar"
 }

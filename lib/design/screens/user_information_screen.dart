@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:register_form/core/models/user.dart';
+import 'package:register_form/design/utils/custom_text_input.dart';
+import 'package:register_form/design/utils/custom_text_view.dart';
 
 class UserInformationArgs {
   const UserInformationArgs({required this.user});
@@ -49,57 +51,44 @@ class _UserInformationState extends State<UserInformation> {
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
-                      children: [
-                        makeField(
-                            label: AppLocalizations.of(context)!.name,
-                            controller:
-                                TextEditingController(text: widget.user.name)),
-                        makeField(
-                            label: AppLocalizations.of(context)!.lastName,
-                            controller: TextEditingController(
-                                text: widget.user.lastName)),
-                        makeField(
-                            label: AppLocalizations.of(context)!.date,
-                            controller: TextEditingController(
-                                text: widget.user.birthDate.toString()))
-                      ],
-                    )),
+                          children: [
+                            CustomTextInput(
+                              label: AppLocalizations.of(context)!.name,
+                              textController:
+                                  TextEditingController(text: widget.user.name),
+                              readOnly: true,
+                            ),
+                            CustomTextInput(
+                                label: AppLocalizations.of(context)!.lastName,
+                                textController: TextEditingController(
+                                    text: widget.user.lastName),
+                                readOnly: true),
+                            CustomTextInput(
+                                label: AppLocalizations.of(context)!.date,
+                                textController: TextEditingController(
+                                    text: widget.user.birthDate.toString()),
+                                readOnly: true),
+                            const SizedBox(height: 20),
+                            Text(
+                              AppLocalizations.of(context)!.addresses,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87),
+                            ),
+                            const SizedBox(height: 10),
+                            for (final address in widget.user.addresses) ...{
+                              CustomTextView(
+                                text: "${address.address}, ${address.city}",
+                                action: () {},
+                                showAction: false,
+                              )
+                            },
+                          ],
+                        )),
                   ))
             ])));
-  }
-
-  Widget makeField(
-      {required String label, required TextEditingController controller}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black87),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        // Note: Same code is applied for the TextFormField as well
-        SizedBox(
-            width: 200,
-            child: TextField(
-              controller: controller,
-              readOnly: true,
-              enabled: false,
-              style: const TextStyle(color: Colors.black54),
-              decoration: const InputDecoration(
-                disabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.grey),
-                ),
-              ),
-            )),
-        const SizedBox(
-          height: 10,
-        )
-      ],
-    );
   }
 }

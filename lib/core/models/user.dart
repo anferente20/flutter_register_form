@@ -1,8 +1,10 @@
+import 'package:register_form/core/models/address.dart';
+
 class User {
   String name;
   String lastName;
   DateTime birthDate;
-  Map<String, dynamic> addresses;
+  List<Address> addresses;
 
   User(
       {required this.addresses,

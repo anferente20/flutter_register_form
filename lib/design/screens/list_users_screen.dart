@@ -4,6 +4,7 @@ import 'package:register_form/core/bloc/user_bloc.dart';
 import 'package:register_form/core/models/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:register_form/design/screens/user_information_screen.dart';
+import 'package:register_form/design/utils/custom_text_view.dart';
 
 class UserInformationScreen extends StatefulWidget {
   const UserInformationScreen({super.key});
@@ -44,33 +45,18 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
               state.users.isEmpty
                   ? Center(child: Text(AppLocalizations.of(context)!.noUsers))
                   : const SizedBox(height: 10),
-              for (final user in state.users) ...{printUser(user, context)}
+              for (final user in state.users) ...{
+                CustomTextView(
+                    text: "${user.lastName.toUpperCase()}, ${user.name}",
+                    action: () {
+                      Navigator.pushNamed(context, UserInformation.route,
+                          arguments: UserInformationArgs(user: user));
+                    })
+              }
             ]))
           ],
         ),
       );
     });
   }
-}
-
-Widget printUser(User user, BuildContext context) {
-  return Column(children: [
-    const SizedBox(height: 10),
-    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text("${user.lastName.toUpperCase()}, ${user.name}"),
-      GestureDetector(
-        child: Text(
-          AppLocalizations.of(context)!.more,
-          style: const TextStyle(
-              color: Colors.redAccent, decoration: TextDecoration.underline),
-        ),
-        onTap: () {
-          Navigator.pushNamed(context, UserInformation.route,
-              arguments: UserInformationArgs(user: user));
-        },
-      )
-    ]),
-    const SizedBox(height: 10),
-    const Divider(thickness: 1, color: Colors.grey),
-  ]);
 }
