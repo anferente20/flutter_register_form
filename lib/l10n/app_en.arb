@@ -6,5 +6,7 @@
     "register":"Register",
     "noDate": "Date is not selected",
     "add": "Add",
-    "users": "Users"
+    "users": "Users",
+    "more": "More",
+    "registeredUsers": "Registered users"
 }

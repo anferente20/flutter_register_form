@@ -6,5 +6,7 @@
     "register":"Registrar",
     "noDate": "No ha seleccionado una fecha",
     "add": "Agregar",
-    "users": "Usuarios"
+    "users": "Usuarios",
+    "more": "Ver más",
+    "registeredUsers": "Usuarios registrados"
 }
