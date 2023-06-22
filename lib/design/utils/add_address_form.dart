@@ -42,7 +42,7 @@ class _AddAddressFormState extends State<AddAddressForm> {
                       label: AppLocalizations.of(context)!.city,
                       formatters: [
                         FilteringTextInputFormatter.allow(
-                            RegExp("[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))
+                            RegExp(r'^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$'))
                       ],
                       textController: cityController),
                   CustomTextInput(

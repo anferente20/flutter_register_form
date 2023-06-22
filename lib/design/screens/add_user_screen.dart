@@ -73,7 +73,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           label: AppLocalizations.of(context)!.name,
                           formatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))
+                                RegExp(r'^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$'))
                           ],
                           type: TextInputType.name,
                           textController: nameController),
@@ -81,7 +81,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           label: AppLocalizations.of(context)!.lastName,
                           formatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))
+                                RegExp(r'^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$'))
                           ],
                           type: TextInputType.name,
                           textController: lastController),
